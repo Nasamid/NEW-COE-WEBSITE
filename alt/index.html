@@ -1,0 +1,271 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>PRMSU College of Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .dropdown:hover .dropdown-menu, .dropdown.open .dropdown-menu {
+      display: block;
+    }
+    .gallery {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+    }
+    .gallery img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    .gallery img.active {
+      opacity: 1;
+    }
+    /* Search input field styling */
+    .search-input {
+    display: none;
+    position: absolute;
+    right: 0; /* Aligns to the right */
+    top: 100%; /* Places input directly below the button */
+    margin-top: 8px; /* Adds a small gap */
+    padding: 8px 12px;
+    border-radius: 9999px;
+    border: 1px solid #ddd;
+    outline: none;
+    width: 200px;
+    background-color: 0.1f; /* Dark background for contrast */
+    color: black; /* Sets text color to white */
+    transition: opacity 0.3s ease;
+    }
+    .search-input.show {
+      display: block;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <header class="bg-black text-white py-4 fixed w-full z-50 top-0">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center">
+        <img alt="PRMSU Logo" class="mr-3" height="40" src="/img_src/COE logo.png" width="40"/>
+        <h1 class="text-xl font-bold">PRMSU College of Engineering</h1>
+      </div>
+      <nav class="flex items-center relative">
+        <ul class="flex space-x-6">
+          <li><a class="hover:underline hover:text-orange-600" href="index.html">Home</a></li>
+          <li class="relative dropdown">
+            <a class="hover:underline cursor-pointer hover:text-orange-600" href="#" onclick="toggleDropdown(event, 'instructionDropdown')">Instruction</a>
+            <ul id="instructionDropdown" class="absolute left-0 mt-2 w-48 bg-white text-black shadow-lg rounded-lg hidden dropdown-menu">
+              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="instruction-CO.html">Curricular Offerings</a></li>
+              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="instruction-F.html">Faculty</a></li>
+            </ul>
+          </li>
+          <li class="relative dropdown">
+            <a class="hover:underline cursor-pointer hover:text-orange-600" href="#" onclick="toggleDropdown(event, 'researchDropdown')">Research</a>
+            <ul id="researchDropdown" class="absolute left-0 mt-2 w-48 bg-white text-black shadow-lg rounded-lg hidden dropdown-menu">
+              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsce.html">BSCE</a></li>
+              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bscpe.html">BSCpE</a></li>
+              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsee.html">BSEE</a></li>
+              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsme.html">BSME</a></li>
+              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsem.html">BSEM</a></li>
+            </ul>
+          </li>
+          <li><a class="hover:underline  hover:text-orange-600" href="extension.html">Extension</a></li>
+          <li><a class="hover:underline hover:text-orange-600" href="history.html">History</a></li>
+        </ul>
+        <button class="ml-6 text-white px-4 py-2 rounded hover:bg-orange-600" onclick="toggleSearchInput()">
+          <i class="fas fa-search"></i>
+        </button>
+        <!-- Search input field -->
+        <input id="searchInput" class="search-input" type="text" placeholder="Type to search..." onkeypress="handleSearchEnter(event)"/>
+      </nav>
+    </div>
+  </header>
+
+  <script>
+    function toggleDropdown(event, dropdownId) {
+      event.preventDefault();
+      const dropdown = document.getElementById(dropdownId);
+      dropdown.classList.toggle('hidden');
+      dropdown.parentElement.classList.toggle('open');
+    }
+
+    document.addEventListener('click', function(e) {
+      const dropdowns = document.querySelectorAll('.dropdown-menu');
+      dropdowns.forEach(menu => {
+        if (!menu.contains(e.target) && !menu.previousElementSibling.contains(e.target)) {
+          menu.classList.add('hidden');
+          menu.parentElement.classList.remove('open');
+        }
+      });
+    });
+
+    // Function to show/hide the search input field
+    function toggleSearchInput() {
+      const searchInput = document.getElementById("searchInput");
+      searchInput.classList.toggle("show");
+      if (searchInput.classList.contains("show")) {
+        searchInput.focus();
+      }
+    }
+
+    // Function to handle Enter key press in search input
+    function handleSearchEnter(event) {
+      if (event.key === "Enter") {
+        const query = event.target.value;
+        if (query) {
+          window.location.href = `search.html?query=${encodeURIComponent(query)}`;
+        }
+      }
+    }
+    // Select the search input element
+
+    const searchButton = document.querySelector('.search-input');
+
+    // Listen for the 'Enter' key press on the search input
+    searchButton.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        // Store the input value in localStorage
+        localStorage.setItem('searchQuery', searchButton.value);
+
+        // Redirect to search.html
+        window.location.href = 'search.html';
+    }
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchTerm = urlParams.get('search');
+
+        if (searchTerm) {
+            // Normalize search term for case-insensitive matching
+            const normalizedSearchTerm = searchTerm.toLowerCase();
+
+            // Find the first element containing the search term
+            const allElements = document.body.querySelectorAll('*');
+            for (const el of allElements) {
+                if (el.children.length === 0) {
+                    const textContent = el.textContent.toLowerCase();
+                    if (textContent.includes(normalizedSearchTerm)) {
+                        // Scroll to the element and optionally highlight it
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        el.style.backgroundColor = '#ffebcc'; // Temporary highlight
+                        break;
+                    }
+                }
+            }
+        }
+    });
+  </script>
+
+  <section class="text-center py-12 bg-white mt-16">
+   <h2 class="text-3xl font-bold text-red-600">
+    Building your success. Engineering your future...
+   </h2>
+  </section>
+  <section class="relative">
+   <div class="container mx-auto">
+    <div class="gallery">
+     <img alt="Group of people from PRMSU" class="active" src="https://storage.googleapis.com/a1aa/image/pu4zL6W3EzL6Cp4ZZ39XKm3LLDVALyh8vVXuISHUHC9g5n7E.jpg"/>
+     <img alt="Group of people from PRMSU" src="https://placehold.co/400x400"/>
+     <img alt="Group of people from PRMSU" src="https://placehold.co/400x400"/>
+     <img alt="Group of people from PRMSU" src="https://placehold.co/400x400"/>
+     <img alt="Group of people from PRMSU" src="https://placehold.co/400x400"/>
+     <img alt="Group of people from PRMSU" src="https://placehold.co/400x400"/>
+    </div>
+   </div>
+  </section>
+  <section class="py-12 bg-gray-100">
+   <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+    <div>
+     <h3 class="text-xl font-bold text-orange-600">
+      Our Vision
+     </h3>
+     <p class="mt-4">
+      PRMSU as a premier learner center and proactive university in a digital and global society.
+     </p>
+     <img alt="ISO 9001 Certification" class="mx-auto mt-4" height="100" src="https://storage.googleapis.com/a1aa/image/wedN91f7ee1qoS6jqcHFCes9pAGJhweeCuyohEsTbCmeBmfcnA.jpg" width="100"/>
+    </div>
+    <div>
+     <h3 class="text-xl font-bold text-orange-600">
+      Our Mission
+     </h3>
+     <p class="mt-4">
+      The President Ramon Magsaysay State University shall primarily provide advance and higher professional, technical, special instructions in various disciplines; undertake research, extension, and income generation programs for sustainable development of Zambales, the region, and the country.
+     </p>
+    </div>
+    <div>
+     <h3 class="text-xl font-bold text-orange-600">
+      Our Quality Policy
+     </h3>
+     <p class="mt-4">
+      The President Ramon Magsaysay State University is committed to continually strive for excellence in instruction, research, extension and production to strengthen global competitiveness adhering to quality standards for the utmost satisfaction of its valued customers.
+     </p>
+    </div>
+   </div>
+  </section>
+  <section class="py-12 bg-white">
+   <div class="container mx-auto space-y-8">
+    <div class="flex flex-col md:flex-row items-start">
+     <img alt="BSME Department event" class="w-full md:w-1/3" height="200" src="https://storage.googleapis.com/a1aa/image/Ncf5MLq1JUxZICfdDNiB4j9KVbL95nDYJgh7JXG34T6FmfcnA.jpg" width="300"/>
+     <div class="md:ml-8 mt-4 md:mt-0">
+      <h3 class="text-xl font-bold">
+       BSME Department awards and demonstrates the Fish Crushing Machine to Laoag Kaunlaran Association
+      </h3>
+      <p class="mt-4">
+       The BSME Department awards and demonstrates the Fish Crushing Machine to Laoag Kaunlaran Association - Cooperative through the Regional Innovation Inclusive Cooperation Program between DTI, DOST, PRMSU and MSMED Council on the 14th of October 2023. This is a realization of the objectives of TEAM-UP EXTENSION PROGRAM parallel with the THRIVE agenda of the college with the goal, "A single step from COE, a hundred mouths fed in the community through upscaling and upgrading livelihood activities of small and medium enterprises in the Province of Zambales".
+      </p>
+     </div>
+    </div>
+    <div class="flex flex-col md:flex-row items-start">
+     <img alt="COE Orientation and Gender Sensitivity Training" class="w-full md:w-1/3" height="200" src="https://storage.googleapis.com/a1aa/image/jtNor9Wh2raVLlvXASBmLZI4QEZedfswTWoDOidpD3aAmfcnA.jpg" width="300"/>
+     <div class="md:ml-8 mt-4 md:mt-0">
+      <h3 class="text-xl font-bold">
+       COE conducts Orientation and Gender Sensitivity Training
+      </h3>
+      <p class="mt-4">
+       The PRMSU College of Engineering conducted the 2nd Batch of Orientation and Gender and Development (GAD) / Gender Sensitivity Training (GST) Seminar for Freshmen at the Science and Engineering Laboratory Building (SELB) Annex on October 20, 2022 with speakers Engr. Rue Lei Balicao and Engr. Cindy Dullas.
+      </p>
+     </div>
+    </div>
+   </div>
+  </section>
+  <section class="py-12 bg-gray-100 text-center">
+   <h3 class="text-xl font-bold text-orange-600">
+    Questions?
+   </h3>
+   <p class="mt-4">
+    online.coe@prmsu.edu.ph |
+    <a class="text-blue-600 hover:underline" href="#">
+     facebook.com/prmsucoe
+    </a>
+    | 0919 069 9177
+   </p>
+  </section>
+  <footer class="bg-gray-800 text-white text-center py-4 m">
+    PRMSU College of Engineering © 2024
+   </footer>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
+        const images = document.querySelectorAll('.gallery img');
+        let currentIndex = 0;
+
+        function showNextImage() {
+            images[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % images.length;
+            images[currentIndex].classList.add('active');
+        }
+
+        setInterval(showNextImage, 1000);
+    });
+  </script>
+ </body>
+</html>

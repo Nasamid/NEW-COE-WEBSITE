@@ -1,0 +1,536 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>PRMSU College of Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .dropdown:hover .dropdown-menu, .dropdown.open .dropdown-menu {
+      display: block;
+    }
+    .gallery {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+    }
+    .gallery img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    .gallery img.active {
+      opacity: 1;
+    }
+    /* Search input field styling */
+    .search-input {
+    display: none;
+    position: absolute;
+    right: 0; /* Aligns to the right */
+    top: 100%; /* Places input directly below the button */
+    margin-top: 8px; /* Adds a small gap */
+    padding: 8px 12px;
+    border-radius: 9999px;
+    border: 1px solid #ddd;
+    outline: none;
+    width: 200px;
+    background-color: 0.1f; /* Dark background for contrast */
+    color: black; /* Sets text color to white */
+    transition: opacity 0.3s ease;
+    }
+    .search-input.show {
+      display: block;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <header class="bg-black text-white py-4 fixed w-full z-50 top-0">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center">
+        <img alt="PRMSU Logo" class="mr-3" height="40" src="/img_src/COE logo.png" width="40"/>
+        <h1 class="text-xl font-bold">PRMSU College of Engineering</h1>
+      </div>
+      <nav class="flex items-center relative">
+        <ul class="flex space-x-6">
+          <li><a class="hover:underline hover:text-orange-600" href="index.html">Home</a></li>
+          <li class="relative dropdown">
+            <a class="hover:underline cursor-pointer hover:text-orange-600" href="#" onclick="toggleDropdown(event, 'instructionDropdown')">Instruction</a>
+            <ul id="instructionDropdown" class="absolute left-0 mt-2 w-48 bg-white text-black shadow-lg rounded-lg hidden dropdown-menu">
+              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="instruction-CO.html">Curricular Offerings</a></li>
+              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="instruction-F.html">Faculty</a></li>
+            </ul>
+          </li>
+          <li class="relative dropdown">
+            <a class="hover:underline cursor-pointer hover:text-orange-600" href="#" onclick="toggleDropdown(event, 'researchDropdown')">Research</a>
+            <ul id="researchDropdown" class="absolute left-0 mt-2 w-48 bg-white text-black shadow-lg rounded-lg hidden dropdown-menu">
+              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsce.html">BSCE</a></li>
+              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bscpe.html">BSCpE</a></li>
+              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsee.html">BSEE</a></li>
+              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsme.html">BSME</a></li>
+              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsem.html">BSEM</a></li>
+            </ul>
+          </li>
+          <li><a class="hover:underline  hover:text-orange-600" href="extension.html">Extension</a></li>
+          <li><a class="hover:underline hover:text-orange-600" href="history.html">History</a></li>
+        </ul>
+        <button class="ml-6 text-white px-4 py-2 rounded hover:bg-orange-600" onclick="toggleSearchInput()">
+          <i class="fas fa-search"></i>
+        </button>
+        <!-- Search input field -->
+        <input id="searchInput" class="search-input" type="text" placeholder="Type to search..." onkeypress="handleSearchEnter(event)"/>
+      </nav>
+    </div>
+  </header>
+
+  <script>
+    function toggleDropdown(event, dropdownId) {
+      event.preventDefault();
+      const dropdown = document.getElementById(dropdownId);
+      dropdown.classList.toggle('hidden');
+      dropdown.parentElement.classList.toggle('open');
+    }
+
+    document.addEventListener('click', function(e) {
+      const dropdowns = document.querySelectorAll('.dropdown-menu');
+      dropdowns.forEach(menu => {
+        if (!menu.contains(e.target) && !menu.previousElementSibling.contains(e.target)) {
+          menu.classList.add('hidden');
+          menu.parentElement.classList.remove('open');
+        }
+      });
+    });
+
+    // Function to show/hide the search input field
+    function toggleSearchInput() {
+      const searchInput = document.getElementById("searchInput");
+      searchInput.classList.toggle("show");
+      if (searchInput.classList.contains("show")) {
+        searchInput.focus();
+      }
+    }
+
+    // Function to handle Enter key press in search input
+    function handleSearchEnter(event) {
+      if (event.key === "Enter") {
+        const query = event.target.value;
+        if (query) {
+          window.location.href = `search.html?query=${encodeURIComponent(query)}`;
+        }
+      }
+    }
+    // Select the search input element
+
+    const searchButton = document.querySelector('.search-input');
+
+    // Listen for the 'Enter' key press on the search input
+    searchButton.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        // Store the input value in localStorage
+        localStorage.setItem('searchQuery', searchButton.value);
+
+        // Redirect to search.html
+        window.location.href = 'search.html';
+    }
+    });
+  </script>
+
+
+  <script>
+    function toggleDropdown(event, dropdownId) {
+      event.preventDefault();
+      const dropdown = document.getElementById(dropdownId);
+      dropdown.classList.toggle('hidden');
+      dropdown.parentElement.classList.toggle('open');
+    }
+
+    document.addEventListener('click', function(e) {
+      const dropdowns = document.querySelectorAll('.dropdown-menu');
+      dropdowns.forEach(menu => {
+        if (!menu.contains(e.target) && !menu.previousElementSibling.contains(e.target)) {
+          menu.classList.add('hidden');
+          menu.parentElement.classList.remove('open');
+        }
+      });
+    });
+
+    const navItems = document.querySelectorAll('nav ul li');
+    navItems.forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+          if (!item.contains(menu)) {
+            menu.classList.add('hidden');
+            menu.parentElement.classList.remove('open');
+          }
+        });
+      });
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchTerm = urlParams.get('search');
+
+        if (searchTerm) {
+            // Normalize search term for case-insensitive matching
+            const normalizedSearchTerm = searchTerm.toLowerCase();
+
+            // Find the first element containing the search term
+            const allElements = document.body.querySelectorAll('*');
+            for (const el of allElements) {
+                if (el.children.length === 0) {
+                    const textContent = el.textContent.toLowerCase();
+                    if (textContent.includes(normalizedSearchTerm)) {
+                        // Scroll to the element and optionally highlight it
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        el.style.backgroundColor = '#ffebcc'; // Temporary highlight
+                        break;
+                    }
+                }
+            }
+        }
+    });
+  </script>
+
+  <main class="p-4 mt-16">
+   <div class="text-sm text-gray-600 mb-4">
+    <a class="text-blue-600" href="#">
+     Instruction
+    </a>
+    &gt;&gt; Faculty
+   </div>
+   <section class="mb-8">
+    <div class="bg-orange-600 text-white p-4">
+     <h2 class="text-xl font-bold">
+      College Dean
+     </h2>
+    </div>
+    <div class="bg-gray-100 p-4 flex">
+     <img alt="Portrait of Gilbert D. Deboma" class="mr-4 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/TNMxif6ZFmS7PS3xhaiPeIvGNsujjcZiNhnNZgOmfDKA3BdnA.jpg"/>
+     <div>
+      <h3 class="text-lg font-bold">
+       GILBERT D. DEBOMA, REE, M.Eng.
+      </h3>
+      <p>
+       Engr. Gilbert D. Deboma is a faculty of the College of Engineering for 24 years with an Academic Rank of Associate Professor V. He is a graduate of Bachelor of Science in Electrical Engineering at Technological Institute of the Philippines – Quezon City. He finished his Master of Science in Electronics Engineering at Andong National University – South Korea. He is currently taking up PhD in Agricultural Engineering at Central Luzon State University. Engr. Deboma is an active member of The Institute of Integrated Electrical Engineers, Inc., the accredited professional organization of electrical practitioners of the Philippines. He is the current dean of the College of Engineering and concurrent Program Chairperson of the Electrical Engineering Department.
+      </p>
+     </div>
+    </div>
+   </section>
+   <section class="mb-8">
+    <div class="bg-orange-600 text-white p-4">
+     <h2 class="text-xl font-bold">
+      Program Chairpersons
+     </h2>
+    </div>
+    <div class="bg-gray-100 p-4 flex mb-4">
+     <img alt="Portrait of Ferdinand D. Talibgan" class="mr-4 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/6eI2WWeylOn1ZUHQBXlHIeH2o8QJfnxo147ufKvexKN46Oo7E.jpg"/>
+     <div>
+      <h3 class="text-lg font-bold text-red-600">
+       BS Civil Engineering (BSCE)
+      </h3>
+      <h4 class="text-lg font-bold">
+       FERDINAND D. TABLIGAN, RCE, M.Eng.
+      </h4>
+      <p>
+       Contents to be published soon...
+      </p>
+     </div>
+    </div>
+    <div class="bg-gray-100 p-4 flex mb-4">
+     <img alt="Portrait of Melojean C. Marave" class="mr-4 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/PSzTvrtETgK6EpCp7hCKi3ehXi3p12duqjPFFWvgodfc7guTA.jpg"/>
+     <div>
+      <h3 class="text-lg font-bold text-red-600">
+       BS Computer Engineering (BSCpE)
+      </h3>
+      <h4 class="text-lg font-bold">
+       MELOJEAN C. MARAVE, LPT, MSIT
+      </h4>
+      <p>
+       Engr. Melojean C. Marave has an extensive educational background, including a Doctorate in Information Technology from the Technological Institute of the Philippines and a Doctor of Education Major in Educational Management from Ramon Magsaysay Technological University, Iba, Zambales. She holds a Master of Science in Information Technology from the Polytechnic University of the Philippines – Sta. Mesa, Manila. Additionally, she completed a Post-Baccalaureate Certificate in Professional Education at Ramon Magsaysay Technological University, Main Campus, Iba, Zambales, and a Training Course in IT Course Design and Development from the National Computer Center, Diliman, Quezon City. Engr. Marave finished CISCO Certified Network Associate Exploration 1, 2, 3, and 4 modules from UP Information Technology Training Center, UP Diliman QC. She earned her Bachelor of Science in Computer Engineering in October 2001. Engr. Marave currently serves as the BS Computer Engineering Program Chairperson at PRMSU Iba, Zambales, and has been actively involved in various faculty and extension works within the university, with a special highlight on community extension. She is a licensed professional teacher and holds professional memberships with Colleges and Universities of the Philippines and the Institute of Computer Engineers of the Philippines (ICpEP). She is a Member and Auditor of the Accrediting Agency of Chartered Colleges and Universities in the Philippines (AACCUP) and Internal Auditor of the International Standard Organization (ISO). Additionally, she has contributed significantly to youth leadership programs and has received recognition for her outstanding contributions and leadership.
+      </p>
+     </div>
+    </div>
+    <div class="bg-gray-100 p-4 flex mb-4">
+     <img alt="Portrait of Gilbert D. Deboma" class="mr-4 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/TNMxif6ZFmS7PS3xhaiPeIvGNsujjcZiNhnNZgOmfDKA3BdnA.jpg"/>
+     <div>
+      <h3 class="text-lg font-bold text-red-600">
+       BS Electrical Engineering (BSEE)
+      </h3>
+      <h4 class="text-lg font-bold">
+       GILBERT D. DEBOMA, REE, M.Eng.
+      </h4>
+      <p>
+       Engr. Gilbert D. Deboma is a faculty of the College of Engineering for 24 years with an Academic Rank of Associate Professor V. He is a graduate of Bachelor of Science in Electrical Engineering at Technological Institute of the Philippines – Quezon City. He finished his Master of Science in Electronics Engineering at Andong National University – South Korea. He is currently taking up PhD in Agricultural Engineering at Central Luzon State University. Engr. Deboma is an active member of The Institute of Integrated Electrical Engineers, Inc., the accredited professional organization of electrical practitioners of the Philippines. He is the current dean of the College of Engineering and concurrent Program Chairperson of the Electrical Engineering Department.
+      </p>
+     </div>
+    </div>
+    <div class="bg-gray-100 p-4 flex mb-4">
+     <img alt="Portrait of Marlon James A. Dedicatoria" class="mr-4 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/sTNwMBUTFyoNI5u0LWXl6jLEfARh28ozCEC9GJfPyIf82BdnA.jpg"/>
+     <div>
+      <h3 class="text-lg font-bold text-red-600">
+       BS Mechanical Engineering (BSME)
+      </h3>
+      <h4 class="text-lg font-bold">
+       MARLON JAMES A. DEDICATORIA, RMEE, Ph.D.
+      </h4>
+      <p>
+       Dr. Marlon James A. Dedicatoria is a licensed mechanical engineer and currently serves as the Vice President for Research and Development, as well as the Dean of the College of Engineering at PRMSU. He has been actively involved in various faculty and extension works within the Bachelor of Science in Mechanical Engineering (BSME) program at PRMSU’s College of Engineering. Additionally, he holds a lecturing position at the university’s graduate school, where he teaches mathematics courses.
+      </p>
+      <p>
+       Dr. Dedicatoria earned his Bachelor of Science degree in Mechanical Engineering from Ramon Magsaysay Technological University in 2006. Subsequently, he pursued his Master of Science in Mechanical Design and Systems Engineering at Andong National University, South Korea, graduating in 2010. He furthered his academic pursuits by completing his PhD in Mechanical Design and Systems Engineering from Andong National University in 2013. Following his doctoral studies, he served as a post-doctoral fellow at the same university’s Materials Behavior Evaluation Laboratory under the guidance of Prof. Hyung-Seop Shin from 2013 to 2014.
+      </p>
+      <p>
+       His research publications primarily focus on the electromechanical property evaluation of high-temperature superconductors. Presently, Dr. Dedicatoria holds the position of Professor 3 at PRMSU.
+      </p>
+     </div>
+    </div>
+    <div class="bg-gray-100 p-4 flex mb-4">
+     <img alt="Portrait of Dorothy Joyce Solpico Desierto" class="mr-4 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/kWFA4zeg5VXVDCxmkQwxgVNEB7yRJO4WowOpmleCkIJn7guTA.jpg"/>
+     <div>
+      <h3 class="text-lg font-bold text-red-600">
+       BS Mining Engineering (BSEM)
+      </h3>
+      <h4 class="text-lg font-bold">
+       DOROTHY JOYCE SOLPICO DESIERTO
+      </h4>
+      <p>
+       Contents to be published soon...
+      </p>
+     </div>
+    </div>
+   </section>
+   <section class="mb-8">
+    <div class="bg-orange-600 text-white p-4">
+     <h2 class="text-xl font-bold">
+      Faculty Members
+     </h2>
+    </div>
+    <div class="bg-gray-100 p-4">
+     <h3 class="text-lg font-bold text-red-600">
+      Civil Engineering
+     </h3>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 1" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/yIF9eeWxTJoOJEXn1lLra2eT5oYQU8YiaxG8OvGKIWXa3BdnA.jpg"/>
+       <p>
+        Faculty Member 1
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 2" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/XlYk7G6OScrLGhmeNlhLx9QXV7fkzePo1kjCDe96Eb2EuD6OB.jpg"/>
+       <p>
+        Faculty Member 2
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 3" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/Or9Wf3o7fdv4YECRTXhRdkXHr6bfwURALjSfAPsA24FpuD6OB.jpg"/>
+       <p>
+        Faculty Member 3
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 4" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/tfTO0v3bHaXfrUfmRAGHiz2MzFPJRSWMwMPsZNsmfptmuD6OB.jpg"/>
+       <p>
+        Faculty Member 4
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 5" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/Lcr9IY79Y17pIBM4PPLe8gRPkef1khnGeQVufUhNtyPWcH0dC.jpg"/>
+       <p>
+        Faculty Member 5
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 6" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/CDu1B7A3nZIXC5eeBfzeQIozqLYsggON8D6EFFCKOfimcH0dC.jpg"/>
+       <p>
+        Faculty Member 6
+       </p>
+      </div>
+     </div>
+    </div>
+    <div class="bg-gray-100 p-4 mt-8">
+     <h3 class="text-lg font-bold text-red-600">
+      Computer Engineering
+     </h3>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 1" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/yIF9eeWxTJoOJEXn1lLra2eT5oYQU8YiaxG8OvGKIWXa3BdnA.jpg"/>
+       <p>
+        Faculty Member 1
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 2" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/XlYk7G6OScrLGhmeNlhLx9QXV7fkzePo1kjCDe96Eb2EuD6OB.jpg"/>
+       <p>
+        Faculty Member 2
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 3" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/Or9Wf3o7fdv4YECRTXhRdkXHr6bfwURALjSfAPsA24FpuD6OB.jpg"/>
+       <p>
+        Faculty Member 3
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 4" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/tfTO0v3bHaXfrUfmRAGHiz2MzFPJRSWMwMPsZNsmfptmuD6OB.jpg"/>
+       <p>
+        Faculty Member 4
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 5" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/Lcr9IY79Y17pIBM4PPLe8gRPkef1khnGeQVufUhNtyPWcH0dC.jpg"/>
+       <p>
+        Faculty Member 5
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 6" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/CDu1B7A3nZIXC5eeBfzeQIozqLYsggON8D6EFFCKOfimcH0dC.jpg"/>
+       <p>
+        Faculty Member 6
+       </p>
+      </div>
+     </div>
+    </div>
+    <div class="bg-gray-100 p-4 mt-8">
+     <h3 class="text-lg font-bold text-red-600">
+      Electrical Engineering
+     </h3>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 1" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/yIF9eeWxTJoOJEXn1lLra2eT5oYQU8YiaxG8OvGKIWXa3BdnA.jpg"/>
+       <p>
+        Faculty Member 1
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 2" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/XlYk7G6OScrLGhmeNlhLx9QXV7fkzePo1kjCDe96Eb2EuD6OB.jpg"/>
+       <p>
+        Faculty Member 2
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 3" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa.com/a1aa/image/Or9Wf3o7fdv4YECRTXhRdkXHr6bfwURALjSfAPsA24FpuD6OB.jpg"/>
+       <p>
+        Faculty Member 3
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 4" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/tfTO0v3bHaXfrUfmRAGHiz2MzFPJRSWMwMPsZNsmfptmuD6OB.jpg"/>
+       <p>
+        Faculty Member 4
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 5" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/Lcr9IY79Y17pIBM4PPLe8gRPkef1khnGeQVufUhNtyPWcH0dC.jpg"/>
+       <p>
+        Faculty Member 5
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 6" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/CDu1B7A3nZIXC5eeBfzeQIozqLYsggON8D6EFFCKOfimcH0dC.jpg"/>
+       <p>
+        Faculty Member 6
+       </p>
+      </div>
+     </div>
+    </div>
+    <div class="bg-gray-100 p-4 mt-8">
+     <h3 class="text-lg font-bold text-red-600">
+      Mechanical Engineering
+     </h3>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 1" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/yIF9eeWxTJoOJEXn1lLra2eT5oYQU8YiaxG8OvGKIWXa3BdnA.jpg"/>
+       <p>
+        Faculty Member 1
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 2" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/XlYk7G6OScrLGhmeNlhLx9QXV7fkzePo1kjCDe96Eb2EuD6OB.jpg"/>
+       <p>
+        Faculty Member 2
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 3" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/Or9Wf3o7fdv4YECRTXhRdkXHr6bfwURALjSfAPsA24FpuD6OB.jpg"/>
+       <p>
+        Faculty Member 3
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 4" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/tfTO0v3bHaXfrUfmRAGHiz2MzFPJRSWMwMPsZNsmfptmuD6OB.jpg"/>
+       <p>
+        Faculty Member 4
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 5" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/Lcr9IY79Y17pIBM4PPLe8gRPkef1khnGeQVufUhNtyPWcH0dC.jpg"/>
+       <p>
+        Faculty Member 5
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 6" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/CDu1B7A3nZIXC5eeBfzeQIozqLYsggON8D6EFFCKOfimcH0dC.jpg"/>
+       <p>
+        Faculty Member 6
+       </p>
+      </div>
+     </div>
+    </div>
+    <div class="bg-gray-100 p-4 mt-8">
+     <h3 class="text-lg font-bold text-red-600">
+      Allied and General Education
+     </h3>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 1" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/yIF9eeWxTJoOJEXn1lLra2eT5oYQU8YiaxG8OvGKIWXa3BdnA.jpg"/>
+       <p>
+        Faculty Member 1
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 2" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/XlYk7G6OScrLGhmeNlhLx9QXV7fkzePo1kjCDe96Eb2EuD6OB.jpg"/>
+       <p>
+        Faculty Member 2
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 3" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/Or9Wf3o7fdv4YECRTXhRdkXHr6bfwURALjSfAPsA24FpuD6OB.jpg"/>
+       <p>
+        Faculty Member 3
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 4" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/tfTO0v3bHaXfrUfmRAGHiz2MzFPJRSWMwMPsZNsmfptmuD6OB.jpg"/>
+       <p>
+        Faculty Member 4
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 5" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/Lcr9IY79Y17pIBM4PPLe8gRPkef1khnGeQVufUhNtyPWcH0dC.jpg"/>
+       <p>
+        Faculty Member 5
+       </p>
+      </div>
+      <div class="flex flex-col items-center">
+       <img alt="Portrait of Faculty Member 6" class="mb-2 w-36 h-36 object-cover" src="https://storage.googleapis.com/a1aa/image/CDu1B7A3nZIXC5eeBfzeQIozqLYsggON8D6EFFCKOfimcH0dC.jpg"/>
+       <p>
+        Faculty Member 6
+       </p>
+      </div>
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer class="bg-gray-800 text-white text-center py-4 m">
+    PRMSU College of Engineering © 2024
+   </footer>
+ </body>
+</html>
