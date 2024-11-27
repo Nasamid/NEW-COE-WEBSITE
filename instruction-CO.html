@@ -10,19 +10,71 @@
   <style>
     body {
       font-family: 'Roboto', sans-serif;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh; /* Ensure the page takes the full height */
     }
+    
+    /* Responsive navigation styles */
+    @media (max-width: 768px) {
+      .mobile-menu-button {
+      position: absolute;
+      right: 1rem; /* Position the button on the right side */
+      top: 50%; /* Vertically center */
+      transform: translateY(-50%); /* Adjust for perfect centering */
+    }
+    
+    .header-container {
+      position: relative; /* Ensure the burger button positions relative to this */
+    }
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: black;
+        padding: 1rem;
+      }
+      
+      .nav-menu.show {
+        display: block;
+      }
+      
+      .nav-menu ul {
+        flex-direction: column;
+      }
+      
+      .nav-menu ul > * + * {
+        margin-left: 0;  /* Remove horizontal spacing on mobile */
+        margin-top: 0.5rem;  /* Add vertical spacing between items */
+      }
+      
+      .nav-menu li {
+        margin: 0.5rem 0;
+      }
+      
+      .dropdown-menu {
+        position: static !important;
+        width: 100% !important;
+        margin-top: 0.5rem !important;
+      }
+    }
+
     .dropdown:hover .dropdown-menu, .dropdown.open .dropdown-menu {
       display: block;
     }
+
+    /* Responsive gallery */
     .gallery {
       position: relative;
       width: 100%;
-      height: 400px;
-      overflow: hidden;
+      height: 300px;
     }
+    
+    @media (min-width: 768px) {
+      .gallery {
+        height: 400px;
+      }
+    }
+    
     .gallery img {
       position: absolute;
       width: 100%;
@@ -31,78 +83,158 @@
       opacity: 0;
       transition: opacity 1s ease-in-out;
     }
+    
     .gallery img.active {
       opacity: 1;
     }
-    /* Search input field styling */
+
+    /* Responsive search input */
     .search-input {
     display: none;
     position: absolute;
-    right: 0; /* Aligns to the right */
-    top: 100%; /* Places input directly below the button */
-    margin-top: 8px; /* Adds a small gap */
+    right: 0;
+    top: 100%;
+    margin-top: 8px;
     padding: 8px 12px;
     border-radius: 9999px;
     border: 1px solid #ddd;
     outline: none;
     width: 200px;
-    background-color: 0.1f; /* Dark background for contrast */
-    color: black; /* Sets text color to white */
+    background-color: white;
+    color: black;
     transition: opacity 0.3s ease;
+    z-index: 50;
+  }
+
+  @media (max-width: 768px) {
+    .search-input {
+      width: 100%;
+      position: absolute;
+      right: 0;
+      left: 0;
+      margin-top: 0.5rem;
     }
-    .search-input.show {
-      display: block;
-      opacity: 1;
+  }
+
+  .search-input.show {
+    display: block;
+    opacity: 1;
+  }
+
+    /* Responsive heading */
+    h2 {
+      font-family: "Roboto", bold;
+      font-size: 48px;
+      text-shadow: 2px 2px 10px rgb(191, 191, 191);
+    }
+    
+    @media (min-width: 768px) {
+      h2 {
+        font-size: 90px;
+      }
     }
   </style>
 </head>
 <body class="bg-gray-100">
   <header class="bg-black text-white py-4 fixed w-full z-50 top-0">
-    <div class="container mx-auto flex justify-between items-center">
+    <div class="header-container container mx-auto px-4 relative flex justify-between items-center">
+      <!-- Logo and Title -->
       <div class="flex items-center">
-        <img alt="PRMSU Logo" class="mr-3" height="40" src="img_src/coe header logo.png" width="40"/>
-        <h1 class="text-xl font-bold">PRMSU College of Engineering</h1>
+        <img alt="PRMSU Logo" class="mr-3" height="40" src="img_src/coe header logo.png" width="40" />
+        <h1 class="text-xl md:text-2xl font-bold break-words">PRMSU College of Engineering</h1>
       </div>
-      <nav class="flex items-center relative">
-        <ul class="flex space-x-6">
-          <li><a class="hover:underline hover:text-orange-600" href="index.html">Home</a></li>
-          <li class="relative dropdown">
-            <a class="hover:underline cursor-pointer hover:text-orange-600" href="#" onclick="toggleDropdown(event, 'instructionDropdown')">Instruction</a>
-            <ul id="instructionDropdown" class="absolute left-0 mt-2 w-48 bg-white text-black shadow-lg rounded-lg hidden dropdown-menu">
-              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="instruction-CO.html">Curricular Offerings</a></li>
-              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="instruction-F.html">Faculty</a></li>
+
+      <!-- Mobile menu button -->
+      <button class="mobile-menu-button md:hidden text-white px-4 py-2" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+      </button>
+
+        <nav class="nav-menu w-full md:w-auto mt-4 md:mt-0">
+          <div class="flex flex-col md:flex-row items-center">
+            <ul class="flex flex-col md:flex-row md:space-x-6 w-full md:w-auto">
+              <li><a class="hover:underline hover:text-orange-600 block py-2" href="index.html">Home</a></li>
+              <li class="relative dropdown">
+                <a class="hover:underline cursor-pointer hover:text-orange-600 block py-2" href="#" onclick="toggleDropdown(event, 'instructionDropdown')">Instruction</a>
+                <ul id="instructionDropdown" class="absolute left-0 mt-2 w-48 bg-white text-black shadow-lg rounded-lg hidden dropdown-menu">
+                  <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="instruction-CO.html">Curricular Offerings</a></li>
+                  <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="instruction-F.html">Faculty</a></li>
+                </ul>
+              </li>
+              <li class="relative dropdown">
+                <a class="hover:underline cursor-pointer hover:text-orange-600 block py-2" href="#" onclick="toggleDropdown(event, 'researchDropdown')">Research</a>
+                <ul id="researchDropdown" class="absolute left-0 mt-2 w-48 bg-white text-black shadow-lg rounded-lg hidden dropdown-menu">
+                  <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsce.html">BSCE</a></li>
+                  <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bscpe.html">BSCpE</a></li>
+                  <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsee.html">BSEE</a></li>
+                  <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsme.html">BSME</a></li>
+                  <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsem.html">BSEM</a></li>
+                </ul>
+              </li>
+              <li><a class="hover:underline hover:text-orange-600 block py-2" href="extension.html">Extension</a></li>
+              <li><a class="hover:underline hover:text-orange-600 block py-2" href="history.html">History</a></li>
+              <li class="md:ml-6 relative">
+                <button class="w-full md:w-auto text-white px-4 py-2 rounded hover:bg-orange-600" onclick="toggleSearchInput()">
+                  <i class="fas fa-search"></i>
+                </button>
+                <input id="searchInput" class="search-input" type="text" placeholder="Type to search..." onkeypress="handleSearchEnter(event)"/>
+              </li>
             </ul>
-          </li>
-          <li class="relative dropdown">
-            <a class="hover:underline cursor-pointer hover:text-orange-600" href="#" onclick="toggleDropdown(event, 'researchDropdown')">Research</a>
-            <ul id="researchDropdown" class="absolute left-0 mt-2 w-48 bg-white text-black shadow-lg rounded-lg hidden dropdown-menu">
-              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsce.html">BSCE</a></li>
-              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bscpe.html">BSCpE</a></li>
-              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsee.html">BSEE</a></li>
-              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsme.html">BSME</a></li>
-              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsem.html">BSEM</a></li>
-            </ul>
-          </li>
-          <li><a class="hover:underline  hover:text-orange-600" href="extension.html">Extension</a></li>
-          <li><a class="hover:underline hover:text-orange-600" href="history.html">History</a></li>
-        </ul>
-        <button class="ml-6 text-white px-4 py-2 rounded hover:bg-orange-600" onclick="toggleSearchInput()">
-          <i class="fas fa-search"></i>
-        </button>
-        <!-- Search input field -->
-        <input id="searchInput" class="search-input" type="text" placeholder="Type to search..." onkeypress="handleSearchEnter(event)"/>
-      </nav>
+          </div>
+        </nav>
+      </div>
     </div>
   </header>
 
   <script>
-    function toggleDropdown(event, dropdownId) {
-      event.preventDefault();
-      const dropdown = document.getElementById(dropdownId);
-      dropdown.classList.toggle('hidden');
-      dropdown.parentElement.classList.toggle('open');
-    }
+  function toggleMobileMenu() {
+        const nav = document.querySelector('.nav-menu');
+        nav.classList.toggle('show');
+      }
 
+      let researchClickCount = 0; // Counter for the Research menu
+
+      function toggleDropdown(event, dropdownId) {
+        event.preventDefault();
+        
+        if (dropdownId === 'researchDropdown') {
+          researchClickCount += 1;
+
+          // First click: open dropdown
+          if (researchClickCount === 1) {
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.classList.toggle('hidden');
+            dropdown.parentElement.classList.toggle('open');
+          } 
+          // Second click: redirect
+          else if (researchClickCount === 2) {
+            window.location.href = 'research.html';
+          }
+
+          // Reset the counter after a short delay
+          setTimeout(() => {
+            researchClickCount = 0;
+          }, 500);
+        } else {
+          const dropdown = document.getElementById(dropdownId);
+          dropdown.classList.toggle('hidden');
+          dropdown.parentElement.classList.toggle('open');
+        }
+      }
+
+      // Close dropdowns when clicking outside
+      document.addEventListener('click', function (e) {
+        const dropdowns = document.querySelectorAll('.dropdown-menu');
+        dropdowns.forEach((menu) => {
+          if (
+            !menu.contains(e.target) &&
+            !menu.previousElementSibling.contains(e.target)
+          ) {
+            menu.classList.add('hidden');
+            menu.parentElement.classList.remove('open');
+          }
+        });
+      });
+      
     document.addEventListener('click', function(e) {
       const dropdowns = document.querySelectorAll('.dropdown-menu');
       dropdowns.forEach(menu => {
@@ -168,189 +300,201 @@
             }
         }
     });
-
   </script>
-  <main class="p-4 mt-16 flex-grow">
-   <div class="bg-white p-4">
+ <!-- Main Content -->
+<main class="p-4 mt-16 flex-col">
+  <div class="bg-white p-4">
     <a class="text-orange-500" href="#">
-     Instruction
+      Instruction
     </a>
     &gt;&gt; Curricular Offerings
-   </div>
-   <div class="bg-orange-500 text-white text-center py-2">
+  </div>
+
+  <div class="bg-orange-500 text-white text-center py-2">
     <h2 class="text-2xl font-bold">
-     Curricular Offerings
+      Curricular Offerings
     </h2>
-   </div>
-   <div class="bg-gray-200 p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 text-center">
+  </div>
+
+  <!-- Curricular Offerings Grid -->
+  <div class="bg-gray-200 p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 text-center">
+    <!-- Civil Engineering -->
     <div>
-     <h3 class="text-orange-500 font-bold">
-      Civil Engineering
-     </h3>
-     <ul class="text-left">
-      <li>
-       <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1ZH8c4FtWYCm8Nr4K_vpJQIwBj21ouwMF/view">
-        CMO
-       </a>
-      </li>
-      <li>
-       Curriculum
-       <ul class="ml-4">
+      <h3 class="text-orange-500 font-bold">
+        Civil Engineering
+      </h3>
+      <ul class="text-left">
         <li>
-         <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1dAxJiHzIfv6htUOxCNrbk-bxUfF7X28I/view">
-          2022
-         </a>
+          <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1ZH8c4FtWYCm8Nr4K_vpJQIwBj21ouwMF/view">
+            CMO
+          </a>
         </li>
         <li>
-         <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1IDMuf4xRgCHvWchZGmHHCI8T6XDV2rI0/view">
-          2019
-         </a>
+          Curriculum
+          <ul class="ml-4">
+            <li>
+              <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1dAxJiHzIfv6htUOxCNrbk-bxUfF7X28I/view">
+                2022
+              </a>
+            </li>
+            <li>
+              <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1IDMuf4xRgCHvWchZGmHHCI8T6XDV2rI0/view">
+                2019
+              </a>
+            </li>
+            <li>
+              <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1PiETznugHPxM_sfhCu5jz40QSoqpBSx0/view">
+                2018 (STEM)
+              </a>
+            </li>
+            <li>
+              <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1NMIBRoesUtYFBcwrEBkWPnJ6aKAqDDMe/view">
+                2018 (Non-STEM)
+              </a>
+            </li>
+          </ul>
         </li>
-        <li>
-         <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1PiETznugHPxM_sfhCu5jz40QSoqpBSx0/view">
-          2018 (STEM)
-         </a>
-        </li>
-        <li>
-         <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1NMIBRoesUtYFBcwrEBkWPnJ6aKAqDDMe/view">
-          2018 (Non-STEM)
-         </a>
-        </li>
-       </ul>
-      </li>
-     </ul>
+      </ul>
     </div>
+
+    <!-- Computer Engineering -->
     <div>
-     <h3 class="text-orange-500 font-bold">
-      Computer Engineering
-     </h3>
-     <ul class="text-left">
-      <li>
-       <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1ZH8c4FtWYCm8Nr4K_vpJQIwBj21ouwMF/view">
-        CMO
-       </a>
-      </li>
-      <li>
-       Curriculum
-       <ul class="ml-4">
+      <h3 class="text-orange-500 font-bold">
+        Computer Engineering
+      </h3>
+      <ul class="text-left">
         <li>
-         <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1MfQptZCp0ntYegS9wuhrsBzaq0eQ36lb/view">
-          2022
-         </a>
+          <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1ZH8c4FtWYCm8Nr4K_vpJQIwBj21ouwMF/view">
+            CMO
+          </a>
         </li>
         <li>
-         <a class="text-black hover:text-orange-500" href="#">
-          2019
-         </a>
+          Curriculum
+          <ul class="ml-4">
+            <li>
+              <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1MfQptZCp0ntYegS9wuhrsBzaq0eQ36lb/view">
+                2022
+              </a>
+            </li>
+            <li>
+              <a class="text-black hover:text-orange-500" href="#">
+                2019
+              </a>
+            </li>
+            <li>
+              <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1gb9F1AjD0ZDIyK0rHltQg5Vzz0a2ia3z/view">
+                2018
+              </a>
+            </li>
+          </ul>
         </li>
-        <li>
-         <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1gb9F1AjD0ZDIyK0rHltQg5Vzz0a2ia3z/view">
-          2018
-         </a>
-        </li>
-       </ul>
-      </li>
-     </ul>
+      </ul>
     </div>
+
+    <!-- Electrical Engineering -->
     <div>
-     <h3 class="text-orange-500 font-bold">
-      Electrical Engineering
-     </h3>
-     <ul class="text-left">
-      <li>
-       <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1qLqbyQsWhAR4IApHhksulj6FhU9msxt5/view">
-        CMO
-       </a>
-      </li>
-      <li>
-       Curriculum
-       <ul class="ml-4">
+      <h3 class="text-orange-500 font-bold">
+        Electrical Engineering
+      </h3>
+      <ul class="text-left">
         <li>
-         <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1L7vvkXEFR4IZ_-YJfMCr5oUjOJGyBand/view?usp=sharing">
-          2022
-         </a>
+          <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1qLqbyQsWhAR4IApHhksulj6FhU9msxt5/view">
+            CMO
+          </a>
         </li>
         <li>
-         <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1LN2HKQoYfgk0vAALgU9VDPaRtPQ2iEhi/view?usp=sharing">
-          2019
-         </a>
+          Curriculum
+          <ul class="ml-4">
+            <li>
+              <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1L7vvkXEFR4IZ_-YJfMCr5oUjOJGyBand/view?usp=sharing">
+                2022
+              </a>
+            </li>
+            <li>
+              <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1LN2HKQoYfgk0vAALgU9VDPaRtPQ2iEhi/view?usp=sharing">
+                2019
+              </a>
+            </li>
+            <li>
+              <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1Mondhpb6XfCz4c6eiAIBlCaChTH7vofL/view?usp=sharing">
+                2018 (STEM)
+              </a>
+            </li>
+            <li>
+              <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/13XBB9Q3Azof4-OJ1COD13ZPGTEaPl2VZ/view?usp=sharing">
+                2018 (Non-STEM)
+              </a>
+            </li>
+          </ul>
         </li>
-        <li>
-         <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1Mondhpb6XfCz4c6eiAIBlCaChTH7vofL/view?usp=sharing">
-          2018 (STEM)
-         </a>
-        </li>
-        <li>
-         <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/13XBB9Q3Azof4-OJ1COD13ZPGTEaPl2VZ/view?usp=sharing">
-          2018 (Non-STEM)
-         </a>
-        </li>
-       </ul>
-      </li>
-     </ul>
+      </ul>
     </div>
+
+    <!-- Mechanical Engineering -->
     <div>
-     <h3 class="text-orange-500 font-bold">
-      Mechanical Engineering
-     </h3>
-     <ul class="text-left">
-      <li>
-       <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/13MkQIMg18aMg15J5GcpQ22gxoi4E-WhN/view?usp=share_link">
-        CMO
-       </a>
-      </li>
-      <li>
-       Curriculum
-       <ul class="ml-4">
+      <h3 class="text-orange-500 font-bold">
+        Mechanical Engineering
+      </h3>
+      <ul class="text-left">
         <li>
-         <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1_ohlfVvqBD2BVIU3iI1xAJXe8tN67pxn/view?usp=sharing">
-          2022
-         </a>
+          <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/13MkQIMg18aMg15J5GcpQ22gxoi4E-WhN/view?usp=share_link">
+            CMO
+          </a>
         </li>
         <li>
-         <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1qIRVGwAu4GZJbLNw8PRsArWFI_y_DXBY/view?usp=sharing">
-          2019
-         </a>
+          Curriculum
+          <ul class="ml-4">
+            <li>
+              <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1_ohlfVvqBD2BVIU3iI1xAJXe8tN67pxn/view?usp=sharing">
+                2022
+              </a>
+            </li>
+            <li>
+              <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1qIRVGwAu4GZJbLNw8PRsArWFI_y_DXBY/view?usp=sharing">
+                2019
+              </a>
+            </li>
+            <li>
+              <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1iPmxV6OHfDDlV5JZmDzfngqvjPDF-kfp/view?usp=sharing">
+                2018 (STEM)
+              </a>
+            </li>
+            <li>
+              <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1QWS1lT3bmBREKOYPhTT1IOw-kW2eI-r9/view?usp=sharing">
+                2018 (Non-STEM)
+              </a>
+            </li>
+          </ul>
         </li>
-        <li>
-         <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1iPmxV6OHfDDlV5JZmDzfngqvjPDF-kfp/view?usp=sharing">
-          2018 (STEM)
-         </a>
-        </li>
-        <li>
-         <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1QWS1lT3bmBREKOYPhTT1IOw-kW2eI-r9/view?usp=sharing">
-          2018 (Non-STEM)
-         </a>
-        </li>
-       </ul>
-      </li>
-     </ul>
+      </ul>
     </div>
+
+    <!-- Mining Engineering -->
     <div>
-     <h3 class="text-orange-500 font-bold">
-      Mining Engineering
-     </h3>
-     <ul class="text-left">
-      <li>
-       <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1G80jfNY3p823SDnztj9GnFhS3KI8dwSe/view?usp=sharing">
-        CMO
-       </a>
-      </li>
-      <li>
-       Curriculum
-       <ul class="ml-4">
+      <h3 class="text-orange-500 font-bold">
+        Mining Engineering
+      </h3>
+      <ul class="text-left">
         <li>
-         <a class="text-black hover:text-orange-500" href="#">
-          202X
-         </a>
+          <a class="text-black hover:text-orange-500" href="https://drive.google.com/file/d/1G80jfNY3p823SDnztj9GnFhS3KI8dwSe/view?usp=sharing">
+            CMO
+          </a>
         </li>
-       </ul>
-      </li>
-     </ul>
+        <li>
+          Curriculum
+          <ul class="ml-4">
+            <li>
+              <a class="text-black hover:text-orange-500" href="#">
+                202X
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
-   </div>
-  </main>
-  <footer class="bg-gray-800 text-white text-center py-4 m">
+  </div>
+</main>
+  <footer class="bg-gray-800 text-white text-center py-4 flex-row">
    PRMSU College of Engineering © 2024
   </footer>
  </body>
