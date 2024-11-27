@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <link rel="icon" href="img_src/COE logo.ico" type="image/ico">
@@ -11,15 +12,70 @@
     body {
       font-family: 'Roboto', sans-serif;
     }
+    
+    /* Responsive navigation styles */
+    @media (max-width: 768px) {
+      .mobile-menu-button {
+      position: absolute;
+      right: 1rem; /* Position the button on the right side */
+      top: 50%; /* Vertically center */
+      transform: translateY(-50%); /* Adjust for perfect centering */
+    }
+    
+    .header-container {
+      position: relative; /* Ensure the burger button positions relative to this */
+    }
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: black;
+        padding: 1rem;
+      }
+      
+      .nav-menu.show {
+        display: block;
+      }
+      
+      .nav-menu ul {
+        flex-direction: column;
+      }
+      
+      .nav-menu ul > * + * {
+        margin-left: 0;  /* Remove horizontal spacing on mobile */
+        margin-top: 0.5rem;  /* Add vertical spacing between items */
+      }
+      
+      .nav-menu li {
+        margin: 0.5rem 0;
+      }
+      
+      .dropdown-menu {
+        position: static !important;
+        width: 100% !important;
+        margin-top: 0.5rem !important;
+      }
+    }
+
     .dropdown:hover .dropdown-menu, .dropdown.open .dropdown-menu {
       display: block;
     }
+
+    /* Responsive gallery */
     .gallery {
       position: relative;
       width: 100%;
-      height: 400px;
-      overflow: hidden;
+      height: 300px;
     }
+    
+    @media (min-width: 768px) {
+      .gallery {
+        height: 400px;
+      }
+    }
+    
     .gallery img {
       position: absolute;
       width: 100%;
@@ -28,78 +84,158 @@
       opacity: 0;
       transition: opacity 1s ease-in-out;
     }
+    
     .gallery img.active {
       opacity: 1;
     }
-    /* Search input field styling */
+
+    /* Responsive search input */
     .search-input {
     display: none;
     position: absolute;
-    right: 0; /* Aligns to the right */
-    top: 100%; /* Places input directly below the button */
-    margin-top: 8px; /* Adds a small gap */
+    right: 0;
+    top: 100%;
+    margin-top: 8px;
     padding: 8px 12px;
     border-radius: 9999px;
     border: 1px solid #ddd;
     outline: none;
     width: 200px;
-    background-color: 0.1f; /* Dark background for contrast */
-    color: black; /* Sets text color to white */
+    background-color: white;
+    color: black;
     transition: opacity 0.3s ease;
+    z-index: 50;
+  }
+
+  @media (max-width: 768px) {
+    .search-input {
+      width: 100%;
+      position: absolute;
+      right: 0;
+      left: 0;
+      margin-top: 0.5rem;
     }
-    .search-input.show {
-      display: block;
-      opacity: 1;
+  }
+
+  .search-input.show {
+    display: block;
+    opacity: 1;
+  }
+
+    /* Responsive heading */
+    h2 {
+      font-family: "Roboto", bold;
+      font-size: 48px;
+      text-shadow: 2px 2px 10px rgb(191, 191, 191);
+    }
+    
+    @media (min-width: 768px) {
+      h2 {
+        font-size: 90px;
+      }
     }
   </style>
 </head>
 <body class="bg-gray-100">
   <header class="bg-black text-white py-4 fixed w-full z-50 top-0">
-    <div class="container mx-auto flex justify-between items-center">
+    <div class="header-container container mx-auto px-4 relative flex justify-between items-center">
+      <!-- Logo and Title -->
       <div class="flex items-center">
-        <img alt="PRMSU Logo" class="mr-3" height="40" src="img_src/coe header logo.png" width="40"/>
-        <h1 class="text-xl font-bold">PRMSU College of Engineering</h1>
+        <img alt="PRMSU Logo" class="mr-3" height="40" src="img_src/coe header logo.png" width="40" />
+        <h1 class="text-xl md:text-2xl font-bold break-words">PRMSU College of Engineering</h1>
       </div>
-      <nav class="flex items-center relative">
-        <ul class="flex space-x-6">
-          <li><a class="hover:underline hover:text-orange-600" href="index.html">Home</a></li>
-          <li class="relative dropdown">
-            <a class="hover:underline cursor-pointer hover:text-orange-600" href="#" onclick="toggleDropdown(event, 'instructionDropdown')">Instruction</a>
-            <ul id="instructionDropdown" class="absolute left-0 mt-2 w-48 bg-white text-black shadow-lg rounded-lg hidden dropdown-menu">
-              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="instruction-CO.html">Curricular Offerings</a></li>
-              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="instruction-F.html">Faculty</a></li>
+
+      <!-- Mobile menu button -->
+      <button class="mobile-menu-button md:hidden text-white px-4 py-2" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+      </button>
+
+        <nav class="nav-menu w-full md:w-auto mt-4 md:mt-0">
+          <div class="flex flex-col md:flex-row items-center">
+            <ul class="flex flex-col md:flex-row md:space-x-6 w-full md:w-auto">
+              <li><a class="hover:underline hover:text-orange-600 block py-2" href="index.html">Home</a></li>
+              <li class="relative dropdown">
+                <a class="hover:underline cursor-pointer hover:text-orange-600 block py-2" href="#" onclick="toggleDropdown(event, 'instructionDropdown')">Instruction</a>
+                <ul id="instructionDropdown" class="absolute left-0 mt-2 w-48 bg-white text-black shadow-lg rounded-lg hidden dropdown-menu">
+                  <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="instruction-CO.html">Curricular Offerings</a></li>
+                  <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="instruction-F.html">Faculty</a></li>
+                </ul>
+              </li>
+              <li class="relative dropdown">
+                <a class="hover:underline cursor-pointer hover:text-orange-600 block py-2" href="#" onclick="toggleDropdown(event, 'researchDropdown')">Research</a>
+                <ul id="researchDropdown" class="absolute left-0 mt-2 w-48 bg-white text-black shadow-lg rounded-lg hidden dropdown-menu">
+                  <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsce.html">BSCE</a></li>
+                  <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bscpe.html">BSCpE</a></li>
+                  <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsee.html">BSEE</a></li>
+                  <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsme.html">BSME</a></li>
+                  <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsem.html">BSEM</a></li>
+                </ul>
+              </li>
+              <li><a class="hover:underline hover:text-orange-600 block py-2" href="extension.html">Extension</a></li>
+              <li><a class="hover:underline hover:text-orange-600 block py-2" href="history.html">History</a></li>
+              <li class="md:ml-6 relative">
+                <button class="w-full md:w-auto text-white px-4 py-2 rounded hover:bg-orange-600" onclick="toggleSearchInput()">
+                  <i class="fas fa-search"></i>
+                </button>
+                <input id="searchInput" class="search-input" type="text" placeholder="Type to search..." onkeypress="handleSearchEnter(event)"/>
+              </li>
             </ul>
-          </li>
-          <li class="relative dropdown">
-            <a class="hover:underline cursor-pointer hover:text-orange-600" href="#" onclick="toggleDropdown(event, 'researchDropdown')">Research</a>
-            <ul id="researchDropdown" class="absolute left-0 mt-2 w-48 bg-white text-black shadow-lg rounded-lg hidden dropdown-menu">
-              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsce.html">BSCE</a></li>
-              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bscpe.html">BSCpE</a></li>
-              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsee.html">BSEE</a></li>
-              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsme.html">BSME</a></li>
-              <li><a class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600" href="research-bsem.html">BSEM</a></li>
-            </ul>
-          </li>
-          <li><a class="hover:underline  hover:text-orange-600" href="extension.html">Extension</a></li>
-          <li><a class="hover:underline hover:text-orange-600" href="history.html">History</a></li>
-        </ul>
-        <button class="ml-6 text-white px-4 py-2 rounded hover:bg-orange-600" onclick="toggleSearchInput()">
-          <i class="fas fa-search"></i>
-        </button>
-        <!-- Search input field -->
-        <input id="searchInput" class="search-input" type="text" placeholder="Type to search..." onkeypress="handleSearchEnter(event)"/>
-      </nav>
+          </div>
+        </nav>
+      </div>
     </div>
   </header>
 
   <script>
-    function toggleDropdown(event, dropdownId) {
-      event.preventDefault();
-      const dropdown = document.getElementById(dropdownId);
-      dropdown.classList.toggle('hidden');
-      dropdown.parentElement.classList.toggle('open');
-    }
+  function toggleMobileMenu() {
+        const nav = document.querySelector('.nav-menu');
+        nav.classList.toggle('show');
+      }
 
+      let researchClickCount = 0; // Counter for the Research menu
+
+      function toggleDropdown(event, dropdownId) {
+        event.preventDefault();
+        
+        if (dropdownId === 'researchDropdown') {
+          researchClickCount += 1;
+
+          // First click: open dropdown
+          if (researchClickCount === 1) {
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.classList.toggle('hidden');
+            dropdown.parentElement.classList.toggle('open');
+          } 
+          // Second click: redirect
+          else if (researchClickCount === 2) {
+            window.location.href = 'research.html';
+          }
+
+          // Reset the counter after a short delay
+          setTimeout(() => {
+            researchClickCount = 0;
+          }, 500);
+        } else {
+          const dropdown = document.getElementById(dropdownId);
+          dropdown.classList.toggle('hidden');
+          dropdown.parentElement.classList.toggle('open');
+        }
+      }
+
+      // Close dropdowns when clicking outside
+      document.addEventListener('click', function (e) {
+        const dropdowns = document.querySelectorAll('.dropdown-menu');
+        dropdowns.forEach((menu) => {
+          if (
+            !menu.contains(e.target) &&
+            !menu.previousElementSibling.contains(e.target)
+          ) {
+            menu.classList.add('hidden');
+            menu.parentElement.classList.remove('open');
+          }
+        });
+      });
+      
     document.addEventListener('click', function(e) {
       const dropdowns = document.querySelectorAll('.dropdown-menu');
       dropdowns.forEach(menu => {
@@ -167,60 +303,72 @@
     });
   </script>
 
-  <main class="p-8 mt-16">
-   <section class="text-center mb-8">
-    <h2 class="text-orange-500 text-3xl font-bold">
-     EXTENSION
-    </h2>
-   </section>
-   <section class="mb-8">
-    <img alt="College of Engineering Research and Extension Framework" class="mx-auto" height="600" src="img_src/COE-R-and-E-Framework-v2.png" width="800"/>
-   </section>
-   <section class="mb-8">
-    <p class="text-center text-gray-700 mb-4">
-     The College of Engineering Research and Extension Framework...
+<main class="p-4 md:p-8 mt-16">
+  <section class="text-center mt-4 mb-2">
+   <h2 class="text-orange-500 text-2xl md:text-3xl font-bold">
+    EXTENSION
+   </h2>
+  </section>
+  
+  <section class="mb-8 px-4">
+   <img 
+       alt="College of Engineering Research and Extension Framework" 
+       class="mx-auto w-full max-w-4xl h-auto object-contain" 
+       src="img_src/COE-R-and-E-Framework-v2.png"
+   />
+  </section>
+  
+  <section class="mb-8 px-4">
+   <p class="text-center text-gray-700 mb-4 text-sm md:text-base">
+    The College of Engineering Research and Extension Framework...
+   </p>
+   <p class="text-center text-gray-500 italic text-sm">
+    Contents to be updated soon...
+   </p>
+  </section>
+  
+  <section class="mb-8">
+   <h3 class="bg-orange-500 text-white text-lg md:text-xl font-bold p-4">
+    Accomplishments
+   </h3>
+   <div class="flex flex-col md:flex-row p-4 bg-gray-100 items-center">
+    <img 
+        alt="BSME Department awards and demonstrates the Fish Crushing Machine to Laoag Kaunlaran Association" 
+        class="mb-4 md:mr-4 md:mb-0 rounded-lg shadow-2xl w-full md:w-1/3 max-w-xs" 
+        src="img_src/Fish-crusher.png"
+    />
+    <p class="text-gray-700 text-center md:text-left text-sm md:text-base">
+     BSME Department awards and demonstrates the Fish Crushing Machine to Laoag Kaunlaran Association
     </p>
-    <p class="text-center text-gray-500 italic">
-     Contents to be updated soon...
-    </p>
-   </section>
-   <section class="mb-8">
-    <h3 class="bg-orange-500 text-white text-xl font-bold p-4">
-     Accomplishments
-    </h3>
-    <div class="flex p-4 bg-gray-100">
-     <img alt="BSME Department awards and demonstrates the Fish Crushing Machine to Laoag Kaunlaran Association" class="mr-4 rounded-lg shadow-2xl" height="200" src="img_src/Fish-crusher.png" width="300"/>
-     <p class="text-gray-700">
-      BSME Department awards and demonstrates the Fish Crushing Machine to Laoag Kaunlaran Association
-     </p>
-    </div>
-   </section>
-   <section class="mb-8">
-    <h3 class="bg-orange-500 text-white text-xl font-bold p-4">
-     Reports
-    </h3>
-    <ul class="list-disc list-inside p-4 bg-gray-100">
-     <li>
-      <a class="text-blue-500 hover:underline" href="#">
-       Accomplishment Report 2021
-      </a>
-     </li>
-     <li>
-      <a class="text-blue-500 hover:underline" href="#">
-       Accomplishment Report 2022
-      </a>
-     </li>
-     <li>
-      <a class="text-blue-500 hover:underline" href="#">
-       Programs, Projects and Activities
-      </a>
-     </li>
-    </ul>
-    <p class="text-center text-gray-500 italic">
-     Contents and links to be updated soon...
-    </p>
-   </section>
-  </main>
+   </div>
+  </section>
+  
+  <section class="mb-8">
+   <h3 class="bg-orange-500 text-white text-lg md:text-xl font-bold p-4">
+    Reports
+   </h3>
+   <ul class="list-disc list-inside p-4 bg-gray-100 space-y-2">
+    <li>
+     <a class="text-blue-500 hover:underline text-sm md:text-base" href="#">
+      Accomplishment Report 2021
+     </a>
+    </li>
+    <li>
+     <a class="text-blue-500 hover:underline text-sm md:text-base" href="#">
+      Accomplishment Report 2022
+     </a>
+    </li>
+    <li>
+     <a class="text-blue-500 hover:underline text-sm md:text-base" href="#">
+      Programs, Projects and Activities
+     </a>
+    </li>
+   </ul>
+   <p class="text-center text-gray-500 italic text-sm mt-4">
+    Contents and links to be updated soon...
+   </p>
+  </section>
+</main>
   <footer class="bg-gray-800 text-white text-center py-4 m">
     PRMSU College of Engineering © 2024
    </footer>
