@@ -70,12 +70,13 @@
     .gallery {
       position: relative;
       width: 100%;
-      height: 300px;
+      height: 100%;
     }
     
     @media (min-width: 768px) {
       .gallery {
         height: 400px;
+        object-fit: contain;
       }
     }
     
@@ -189,9 +190,9 @@
     </div>
   </header>
 
-  <section class="text-center py-12 bg-white mt-24">
-    <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold px-4">
-      Building your success. Engineering your future...
+  <section class="text-center py-12 text-orange-600 mt-24">
+    <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold px-4 leading-tight">
+        Building Your Success, Engineering Your Future...
     </h2>
   </section>
 
@@ -210,33 +211,27 @@
 
   <section class="py-12 bg-gray-100 px-4">
     <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-      <!-- Vision Section -->
-      <div class="p-4">
-        <h3 class="text-xl font-bold text-orange-600">Our Vision</h3>
-        <p class="mt-4">PRMSU as a premier learner center and proactive university in a digital and global society.</p>
-        <img 
-          alt="ISO 9001 Certification" 
-          class="h-24 w-48 mx-auto mt-4 md:mt-6 md:block hidden" 
-          src="img_src/SOCOTEC.jpg" />
-      </div>
-  
-      <!-- Mission Section -->
-      <div class="p-4">
-        <h3 class="text-xl font-bold text-orange-600">Our Mission</h3>
-        <p class="mt-4">The President Ramon Magsaysay State University shall primarily provide advance and higher professional, technical, special instructions in various disciplines; undertake research, extension, and income generation programs for sustainable development of Zambales, the region, and the country.</p>
-      </div>
-  
-      <!-- Quality Policy Section -->
-      <div class="p-4">
-        <h3 class="text-xl font-bold text-orange-600">Our Quality Policy</h3>
-        <p class="mt-4">The President Ramon Magsaysay State University is committed to continually strive for excellence in instruction, research, extension and production to strengthen global competitiveness adhering to quality standards for the utmost satisfaction of its valued customers.</p>
-        <img 
-          alt="ISO 9001 Certification" 
-          class="h-24 w-48 mx-auto mt-4 md:hidden" 
-          src="img_src/SOCOTEC.jpg" />
-      </div>
+        <!-- Vision Section -->
+        <div class="card shadow-lg hover:shadow-xl transition-shadow rounded-lg p-6 bg-white">
+            <h3 class="text-xl font-bold text-orange-600">Our Vision</h3>
+            <p class="mt-4 text-gray-700">PRMSU as a premier learner center and proactive university in a digital and global society.</p>
+        </div>
+
+        <!-- Mission Section -->
+        <div class="card shadow-lg hover:shadow-xl transition-shadow rounded-lg p-6 bg-white">
+            <h3 class="text-xl font-bold text-orange-600">Our Mission</h3>
+            <p class="mt-4 text-gray-700">The President Ramon Magsaysay State University shall primarily provide advance and higher professional, technical, special instructions in various disciplines; undertake research, extension, and income generation programs for sustainable development of Zambales, the region, and the country.</p>
+        </div>
+
+        <!-- Quality Policy Section -->
+        <div class="card shadow-lg hover:shadow-xl transition-shadow rounded-lg p-6 bg-white">
+            <h3 class="text-xl font-bold text-orange-600">Our Quality Policy</h3>
+            <p class="mt-4 text-gray-700">The President Ramon Magsaysay State University is committed to continually strive for excellence in instruction, research, extension, and production to strengthen global competitiveness adhering to quality standards for the utmost satisfaction of its valued customers.</p>
+            <img alt="ISO 9001 Certification" class="h-24 w-48 mx-auto mt-6" src="img_src/SOCOTEC.jpg" />
+        </div>
     </div>
-  </section> 
+</section>
+
 
   <section class="py-12 bg-white px-4">
     <div class="container mx-auto space-y-8">
